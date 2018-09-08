@@ -21,7 +21,7 @@ My parents gave me this name with their best wishes as the Chinese Characters *S
 I also go by Trinity and yes it comes from the movie [*The Matrix*](https://en.wikipedia.org/wiki/The_Matrix). :joy: 
 
 ### :smirk_cat: Major
-I studied in Financial Mathematics for two years and decided to transfer to UBC to change my major. Statistics was my second choice but it turns out to be the passion I found.
+I studied in Financial Mathematics before I decided to transfer to UBC to change my major three years ago. Statistics was my second choice but it turns out to be the passion I found.
 
 ### :heart_eyes_cat: Things I Enjoy
 
