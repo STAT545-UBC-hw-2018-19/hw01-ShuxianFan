@@ -37,9 +37,9 @@ I studied in Financial Mathematics before I decided to transfer to UBC to change
 #### :video_game: Games
 ![game](game.JPG)
 
-### Research Interest
+### :sparkles: Research Interest
 Currently I am working on a project involves statistical analysis of spatial point process. 
 
-->Always willing to try out more things!<-
+  - \*Always willing to try out more things!*\
 
 ## Final Remarks
