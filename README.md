@@ -15,7 +15,7 @@ Here you will find:
 ## Fun Facts about Myself
 ### :smile_cat: Name 
 I love my hard-to-pronounce name: Shuxian Fan. (give it a try - shoe she-Ann fan) 
-My parents gave me this name with their best wishes as the Chinese Characters *Shu* and *Xian*  means 
+My parents gave me this name with their best wishes as the Chinese Characters *Shu* and *Xian* means 
 > “good, pure, virtuous, charming”. 
 
 I also go by Trinity and yes it comes from the movie [*The Matrix*](https://en.wikipedia.org/wiki/The_Matrix). :joy: 
@@ -37,7 +37,9 @@ I studied in Financial Mathematics before I decided to transfer to UBC to change
 #### :video_game: Games
 ![game](game.JPG)
 
-### 
+### Research Interest
+Currently I am working on a project involves statistical analysis of spatial point process. 
 
+->Always willing to try out more things!<-
 
 ## Final Remarks
