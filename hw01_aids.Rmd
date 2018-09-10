@@ -1,0 +1,152 @@
+---
+title: "Exploring the `aids` Dataset"
+author: Shuxian Fan
+date: Sep 8, 2018
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data Description
+
+The dataset used on this page is available in **R** as a data frame `aids` in the package **JM**. 
+The dataset `aids` has 1408 observations measured with 9 variables shown as following:
+
+| Variables  | Description |     
+|----------|:----------------------------------------------|
+| `patient` |  patients identiﬁer |
+| `Time`|    time to death or censoring  | 
+|`death` | a binary numerical variable with 0 denoting censoring and 1 death | 
+|`CD4`| count of the CD4 cells|
+|`obstime`| time at which CD4 cells count was recorded|
+|`drug` | a factor with levels `ddC` denoting zalcitabine and `ddI` denoting didanosine|
+|`gender`| a factor with levels `female` and `male`|
+|`prevOI`| a factor with levels `AIDS` denoting previous AIDS diagnosis at study entry, and `noAIDS` denoting no previous infection.|
+|`AZT`| a factor with levels `intolerance` and `failure` denoting AZT intolerance and AZT failure|
+
+The corresponding dataset `aids.id` contains the first CD4 cell count for each patient. This dataset is used for survival analysis. 
+
+### *Long* Format of the Data
+The *long* format of the data requires the measurements of each subject are stored in multiple rows. It is in the contrast to the *wide* format where the measurements of each subject are stored in multiple columns. Here we would like to check if the dataset is already shaped in this format.
+
+```{r load, message=FALSE}
+# Load the package.
+library(JM)
+# Load the datasets
+data("aids", package = "JM")
+data("aids.id", package = "JM")
+```
+
+```{r pressure}
+# Extract observations from patients id 1 to 3 with only variables: 
+# "patient", "CD4", "obstime", "gender".
+aids[aids$patient %in% c(1,2,3), c("patient", "CD4", "obstime", "gender")]
+
+```
+The measurements for the patients with id 1,2,3 are stored in the first 10 rows of the dataset, which agrees with the long format requirement.
+
+### Summary Statistics
+
+```{r summary }
+# Show the summary of the dataset `aid.id`
+summary(aids.id)
+```
+
+The aids dataset has 467 unique patients, among which 45 are females, 422 are males. By the end of the study, there are in total 188 patients had died, giving a 40.26\% death rate.
+
+
+## Data Exploration
+
+### Longitudinal Submodel
+Longitudinal data are usually fit using a mixed effects model. To determine the appropriate model used for the dataset, we would like to check the longitudinal trajectories for the longitudinal measurements. Here we pick a random group of 7 people, of which the CD4 cells counts are plot against the Time. 
+
+```{r longitudinal_trajectories, message=FALSE}
+# Randomly chose 8 patients' ids from the patient list.
+set.seed(2)
+index.spl = sample(aids.id$patient, 7)
+# Extract the random sample from the dataset.
+aids.spl1 = subset(aids, aids$patient %in% index.spl)
+
+# Load ggplot2 package
+require(ggplot2)
+# Define base for the plot
+b = ggplot(data = aids.spl1, aes(x = obstime, y = CD4, group = patient, color = patient))
+# Plotting the trajectories
+b+geom_line()+geom_point()
+
+
+```
+
+Based on the longitudinal trajectories, it is reasonable to consider a linear mixed effects model with random effects term in the intercept.
+```{r, message=FALSE}
+# install.packages(nlme)
+library(nlme)
+lmeFit = lme(CD4~obstime, random = ~1|patient, data = aids)
+summary(lmeFit)
+```
+
+This model fit corresponds to a simple linear mixed effect model assuming a random effect term in the intercept for each patient:
+$$y_{ij} = \beta_0 + \beta_{1}t_{ij}+b_{i}+\epsilon_{ij}$$
+where $b_i$ and $\epsilon_{ij}$ are assumed to follow normal distributions.
+
+Furthermore, we could compare the mean CD4 counts between genders. This will probably help us on answering the question that if the CD4 counts over time depend on whether a patient is female or male. Here we use 14 randomely chosen patients to illustrate the comparison. 
+
+```{r}
+# Get the 14 randomly selected sample.
+set.seed(1)
+males = aids.id[aids.id$gender=="male",]
+females = aids.id[aids.id$gender!="male",]
+male.id = sample(males$patient, 7)
+female.id = sample(females$patient, 7)
+
+# Extract the random sample from the dataset.
+aids.spl2 = subset(aids, aids$patient %in% c(male.id, female.id))
+# Define base for the plot
+p = ggplot(data = aids.spl2, aes(x = obstime, y = CD4, group = patient, color = patient))
+# Plot the Trajectories for each patients and adding the overall mean point.
+p+geom_line()+geom_point() + stat_summary(aes(group = 1), geom = "point", fun.y = mean,
+    shape = 16, size = 2.5)+facet_grid(.~gender)
+```
+
+
+
+### Survival Submodel
+The survival data are characterized by the response variable being the time until the event(For example, death). Here for simplicity, we just illustrate the Kaplan-Meier estimate of the survival function for the `aids.id` dataset.
+```{r surv}
+# Create and plot the Kaplan-Meier estimate
+km = survfit(Surv(Time, death)~1, data = aids.id)
+plot(km, xlab = "Time", ylab = "Probability of Survival")
+```
+
+### Joint Modelling 
+In order to answer the question:
+
+**Whether there is any association between the longitudinal process and the hazard of death?**
+
+We are interested in jointly fitting the longitudinal and survival submodels.
+
+```{r, message=FALSE}
+# install.packages("survival")
+library(JM)
+library(nlme)
+library(survival)
+
+# Joint model fit 
+lmeFit = lme(CD4~obstime, random = ~1|patient, data = aids)
+coxFit = coxph(Surv(Time,death)~1, data = aids.id, x = T)
+jointFit = jointModel(lmeFit,coxFit, timeVar = "obstime", method = "piecewise-PH-aGH")
+summary(jointFit)
+```
+
+The parameter of interest in the output of the joint model fitting is labeled `Assoct`. The output of the joint model indicates a strong association between the CD4 measurements and the risk of death. 
+
+## Source and References
+
+<http://www.biostat.umn.edu/~brad/data.html>
+
+<http://www.biostat.umn.edu/~brad/software.html>
+
+<https://stats.idre.ucla.edu/r/faq/how-can-i-visualize-longitudinal-data-in-ggplot2/>
+
