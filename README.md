@@ -26,7 +26,7 @@ I studied in Financial Mathematics before I decided to transfer to UBC to change
 ### :heart_eyes_cat: Things I Enjoy
 
 #### :movie_camera: **Movies**
-![partial_list](movie.JPG)
+![partial_list](/hw01_README_files/movie.JPG)
 
 #### :airplane: **Trips**
 - [x] London
@@ -41,7 +41,7 @@ Toronto | Niagara Falls
 Kyoto | Fireworks
 
 #### :video_game: Games
-![game](game.JPG)
+![game](/hw01_README_files/game.JPG)
 
 ### :sparkles: Research Interest
 Currently I am working on a project that involves statistical analysis of spatial point process. 
