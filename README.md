@@ -9,7 +9,7 @@ Here you will find:
   
   :memo: A [**README**](https://github.com/STAT545-UBC-students/hw01-ShuxianFan/blob/master/README.md) file that contains the basic information of the repository and some [**fun facts**](#fun-facts-about-myself) about me!
   
-  :bar_chart: An R_Markdown document that presents some interesting exploratory data analysis on the Gapminder dataset.
+  :bar_chart: An [R_Markdown](https://github.com/STAT545-UBC-students/hw01-ShuxianFan/blob/master/hw01_aids.Rmd) document that presents some interesting exploratory data analysis on the `aids` dataset. The GitHub Markdown output can be found [here](https://github.com/STAT545-UBC-students/hw01-ShuxianFan/blob/master/hw01_aids.md).
 
 
 ## Fun Facts about Myself
