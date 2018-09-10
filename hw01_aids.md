@@ -186,8 +186,8 @@ summary(lmeFit)
     ## Number of Groups: 467
 
 This model fit corresponds to a simple linear mixed effect model assuming a random effect term in the intercept for each patient:
-*y*<sub>*i**j*</sub> = *β*<sub>0</sub> + *β*<sub>1</sub>*t*<sub>*i**j*</sub> + *b*<sub>*i*</sub> + *ϵ*<sub>*i**j*</sub>
- where *b*<sub>*i*</sub> and *ϵ*<sub>*i**j*</sub> are assumed to follow normal distributions.
+*y*<sub>*ij*</sub> = *β*<sub>0</sub> + *β*<sub>1</sub>*t*<sub>*ij*</sub> + *b*<sub>*i*</sub> + *ϵ*<sub>*ij*</sub>
+ where *b*<sub>*i*</sub> and *ϵ*<sub>*ij*</sub> are assumed to follow normal distributions.
 
 Furthermore, we could compare the mean CD4 counts between genders. This will probably help us on answering the question that if the CD4 counts over time depend on whether a patient is female or male. Here we use 14 randomely chosen patients to illustrate the comparison.
 
