@@ -93,6 +93,49 @@ aids[aids$patient %in% c(1,2,3), c("patient", "CD4", "obstime", "gender")]
 
 The measurements for the patients with id 1,2,3 are stored in the first 10 rows of the dataset, which agrees with the long format requirement.
 
+``` r
+head(aids)
+```
+
+    ##   patient  Time death       CD4 obstime drug gender prevOI         AZT
+    ## 1       1 16.97     0 10.677078       0  ddC   male   AIDS intolerance
+    ## 2       1 16.97     0  8.426150       6  ddC   male   AIDS intolerance
+    ## 3       1 16.97     0  9.433981      12  ddC   male   AIDS intolerance
+    ## 4       2 19.00     0  6.324555       0  ddI   male noAIDS intolerance
+    ## 5       2 19.00     0  8.124038       6  ddI   male noAIDS intolerance
+    ## 6       2 19.00     0  4.582576      12  ddI   male noAIDS intolerance
+    ##   start  stop event
+    ## 1     0  6.00     0
+    ## 2     6 12.00     0
+    ## 3    12 16.97     0
+    ## 4     0  6.00     0
+    ## 5     6 12.00     0
+    ## 6    12 18.00     0
+
+``` r
+ncol(aids)
+```
+
+    ## [1] 12
+
+``` r
+str(aids)
+```
+
+    ## 'data.frame':    1405 obs. of  12 variables:
+    ##  $ patient: Factor w/ 467 levels "1","2","3","4",..: 1 1 1 2 2 2 2 3 3 3 ...
+    ##  $ Time   : num  17 17 17 19 19 ...
+    ##  $ death  : int  0 0 0 0 0 0 0 1 1 1 ...
+    ##  $ CD4    : num  10.68 8.43 9.43 6.32 8.12 ...
+    ##  $ obstime: int  0 6 12 0 6 12 18 0 2 6 ...
+    ##  $ drug   : Factor w/ 2 levels "ddC","ddI": 1 1 1 2 2 2 2 2 2 2 ...
+    ##  $ gender : Factor w/ 2 levels "female","male": 2 2 2 2 2 2 2 1 1 1 ...
+    ##  $ prevOI : Factor w/ 2 levels "noAIDS","AIDS": 2 2 2 1 1 1 1 2 2 2 ...
+    ##  $ AZT    : Factor w/ 2 levels "intolerance",..: 1 1 1 1 1 1 1 1 1 1 ...
+    ##  $ start  : int  0 6 12 0 6 12 18 0 2 6 ...
+    ##  $ stop   : num  6 12 17 6 12 ...
+    ##  $ event  : num  0 0 0 0 0 0 0 0 0 1 ...
+
 ### Summary Statistics
 
 ``` r
@@ -186,8 +229,8 @@ summary(lmeFit)
     ## Number of Groups: 467
 
 This model fit corresponds to a simple linear mixed effect model assuming a random effect term in the intercept for each patient:
-*y*<sub>*ij*</sub> = *β*<sub>0</sub> + *β*<sub>1</sub>*t*<sub>*ij*</sub> + *b*<sub>*i*</sub> + *ϵ*<sub>*ij*</sub>
- where *b*<sub>*i*</sub> and *ϵ*<sub>*ij*</sub> are assumed to follow normal distributions.
+*y*<sub>*i**j*</sub> = *β*<sub>0</sub> + *β*<sub>1</sub>*t*<sub>*i**j*</sub> + *b*<sub>*i*</sub> + *ϵ*<sub>*i**j*</sub>
+ where *b*<sub>*i*</sub> and *ϵ*<sub>*i**j*</sub> are assumed to follow normal distributions.
 
 Furthermore, we could compare the mean CD4 counts between genders. This will probably help us on answering the question that if the CD4 counts over time depend on whether a patient is female or male. Here we use 14 randomely chosen patients to illustrate the comparison.
 
@@ -208,7 +251,7 @@ p+geom_line()+geom_point() + stat_summary(aes(group = 1), geom = "point", fun.y 
     shape = 16, size = 2.5)+facet_grid(.~gender)
 ```
 
-![](hw01_aids_files/figure-markdown_github/unnamed-chunk-2-1.png)
+![](hw01_aids_files/figure-markdown_github/unnamed-chunk-3-1.png)
 
 ### Survival Submodel
 

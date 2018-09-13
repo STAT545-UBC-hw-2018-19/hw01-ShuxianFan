@@ -43,9 +43,15 @@ data("aids.id", package = "JM")
 # Extract observations from patients id 1 to 3 with only variables: 
 # "patient", "CD4", "obstime", "gender".
 aids[aids$patient %in% c(1,2,3), c("patient", "CD4", "obstime", "gender")]
-
 ```
 The measurements for the patients with id 1,2,3 are stored in the first 10 rows of the dataset, which agrees with the long format requirement.
+
+```{r}
+head(aids)
+ncol(aids)
+str(aids)
+```
+
 
 ### Summary Statistics
 
